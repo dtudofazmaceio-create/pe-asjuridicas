@@ -163,6 +163,60 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
 .dialog p { margin: 0 0 16px; color: var(--muted); }
 .dialog .row { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
 .copy-fallback { width: 100%; min-height: 200px; margin-top: 10px; font-family: var(--f-doc); font-size: .85rem; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+
+/* ---------- preparar peça ---------- */
+.prep { position: fixed; inset: 0; z-index: 35; background: var(--bg); display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); }
+.prep-head { background: var(--navy); color: var(--navy-ink); }
+.prep-head-in { max-width: 860px; margin: 0 auto; padding-block: 10px 12px; display: grid; gap: 10px; }
+.prep-top { display: flex; align-items: center; gap: 10px; }
+.prep-top .back { border-color: rgba(255,255,255,.18); color: var(--navy-ink); display: grid; }
+.prep-top .eyebrow { font-size: .7rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--brass); }
+.prep-top h2 { margin: 1px 0 0; font-family: var(--f-doc); font-size: 1.12rem; line-height: 1.25; text-wrap: balance; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: rgba(255,255,255,.08); padding: 4px; border-radius: 11px; }
+.seg button { height: 36px; border: 0; border-radius: 8px; background: transparent; color: var(--navy-ink); font-weight: 600; font-size: .88rem; display: flex; align-items: center; justify-content: center; gap: 7px; }
+.seg button span { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 1px solid currentColor; font-size: .72rem; }
+.seg button[aria-selected="true"] { background: var(--brass); color: #1b1408; }
+.seg button:disabled { opacity: .45; cursor: not-allowed; }
+.prep-body { flex: 1; overflow: auto; -webkit-overflow-scrolling: touch; }
+.prep-in { max-width: 860px; margin: 0 auto; padding-block: 16px 24px; display: grid; gap: 14px; }
+.fs { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.fs > h3 { margin: 0; font-size: .95rem; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.fs > h3 small { font-weight: 500; color: var(--muted); font-size: .78rem; }
+.fs .lead { margin: -6px 0 0; color: var(--muted); font-size: .84rem; }
+.grid2 { display: grid; gap: 12px; }
+@media (min-width: 640px) { .grid2 { grid-template-columns: 1fr 1fr; } .grid2 .wide { grid-column: 1 / -1; } }
+.fld { display: grid; gap: 5px; min-width: 0; }
+.fld label { font-size: .8rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.fld label .ctx { font-weight: 400; color: var(--muted); }
+.fld input, .fld textarea, .fld select { width: 100%; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 9px; padding: 10px 11px; font-size: 16px; line-height: 1.4; }
+.fld textarea { min-height: 92px; resize: vertical; font-family: var(--f-doc); }
+.fld input:focus, .fld textarea:focus { outline: 2px solid var(--focus); outline-offset: 0; border-color: transparent; background: var(--surface); }
+.fld.filled input, .fld.filled textarea { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.fld .hint { font-size: .76rem; color: var(--muted); line-height: 1.35; }
+.sec-label { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brass); margin-top: 4px; }
+.chk { display: flex; gap: 10px; align-items: flex-start; font-size: .88rem; line-height: 1.4; }
+.chk input { width: 20px; height: 20px; margin: 1px 0 0; flex: none; accent-color: var(--brass); }
+details.fs summary { cursor: pointer; font-weight: 700; font-size: .95rem; list-style: none; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+details.fs summary::-webkit-details-marker { display: none; }
+details.fs summary small { font-weight: 500; color: var(--muted); font-size: .78rem; }
+details.fs[open] summary { margin-bottom: 4px; }
+.prep-foot { background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.prep-foot-in { max-width: 860px; margin: 0 auto; padding-block: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.meter { display: grid; gap: 4px; min-width: 150px; flex: 1; }
+.meter small { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
+.meter .bar { height: 6px; }
+.prep-foot .btn { flex: none; }
+.doc-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.doc-tools .btn { height: 40px; padding: 0 13px; font-size: .86rem; }
+.doc-note { font-size: .82rem; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.doc-note b { color: var(--field-ink); background: var(--field-bg); padding: 1px 7px; border-radius: 99px; font-variant-numeric: tabular-nums; }
+.doc-note .saved { color: var(--ok); }
+.paper.editable { margin: 0; max-width: none; outline: none; min-height: 60vh; box-shadow: var(--shadow); }
+.paper.editable:focus { border-color: color-mix(in srgb, var(--brass) 60%, var(--line)); }
+@media (min-width: 900px) { .paper.editable { padding: 48px 56px; } }
+.paper .multi { white-space: pre-wrap; }
+.prep:not([hidden]) ~ .toast { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
@@ -231,6 +285,7 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
   </div>
 </main>
 
+<div class="prep" id="prep" hidden></div>
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="overlay" id="overlay" hidden></div>
 
@@ -428,7 +483,7 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
   const state = { models: [], parts: [], meta: null, favs: new Set(), q: "", part: "todas", open: null, idbOk: true };
 
   /* ================= IndexedDB ================= */
-  const DB_NAME = "consulta-modelos-juridicos", DB_VER = 1;
+  const DB_NAME = "consulta-modelos-juridicos", DB_VER = 2;
   let dbp = null;
   function db() {
     if (dbp) return dbp;
@@ -440,6 +495,8 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
           if (!d.objectStoreNames.contains("modelos")) d.createObjectStore("modelos", { keyPath: "numero" });
           if (!d.objectStoreNames.contains("meta")) d.createObjectStore("meta");
           if (!d.objectStoreNames.contains("favoritos")) d.createObjectStore("favoritos");
+          if (!d.objectStoreNames.contains("perfil")) d.createObjectStore("perfil");
+          if (!d.objectStoreNames.contains("rascunhos")) d.createObjectStore("rascunhos");
         };
         r.onsuccess = () => res(r.result);
         r.onerror = () => rej(r.error);
@@ -451,7 +508,7 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
   function tx(store, mode, fn) {
     return db().then(d => new Promise((res, rej) => {
       const t = d.transaction(store, mode); const s = t.objectStore(store);
-      const out = fn(s); t.oncomplete = () => res(out && out.result !== undefined ? out.result : out); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error);
+      const out = fn(s); t.oncomplete = () => res(out instanceof IDBRequest ? out.result : out); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error);
     }));
   }
   const getAll = store => tx(store, "readonly", s => s.getAll());
@@ -469,8 +526,8 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
   async function clearAll() {
     const d = await db();
     await new Promise((res, rej) => {
-      const t = d.transaction(["modelos", "meta", "favoritos"], "readwrite");
-      ["modelos", "meta", "favoritos"].forEach(n => t.objectStore(n).clear());
+      const t = d.transaction(["modelos", "meta", "favoritos", "rascunhos"], "readwrite");
+      ["modelos", "meta", "favoritos", "rascunhos"].forEach(n => t.objectStore(n).clear());
       t.oncomplete = res; t.onerror = () => rej(t.error);
     });
   }
@@ -605,13 +662,15 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
         </div>
         <p class="reader-base">${esc(m.base)}</p>
         <div class="actions">
-          <button class="btn primary" id="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>Copiar modelo</button>
+          <button class="btn primary" id="prepBtn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>Preparar peça</button>
+          <button class="btn ghost" id="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>Copiar modelo</button>
           <button class="btn ghost" id="favR" aria-pressed="${fav}">${starSvg(fav)}${fav ? "Favorito" : "Favoritar"}</button>
         </div>
       </div>
       <div class="doc-scroll"><article class="paper">${body}</article></div>`;
     $("back").onclick = () => closeModel();
     $("copy").onclick = () => copyModel(m);
+    $("prepBtn").onclick = () => openPrep(m.numero);
     $("favR").onclick = () => toggleFav(m.numero);
     if (window.matchMedia("(max-width: 899.98px)").matches) document.body.style.overflow = "hidden";
     const sc = r.querySelector(".doc-scroll"); if (sc) sc.scrollTop = 0;
@@ -645,6 +704,9 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
   window.addEventListener("hashchange", syncHash);
   window.addEventListener("popstate", syncHash);
   function syncHash() {
+    const pm = /^#p(\d+)$/.exec(location.hash);
+    if (pm) { const pn = +pm[1]; if (state.models.some(x => x.numero === pn) && (!pp.m || pp.m.numero !== pn)) openPrep(pn, false); return; }
+    if (!$("prep").hidden) closePrep(true);
     const m = /^#m(\d+)$/.exec(location.hash);
     const n = m ? +m[1] : null;
     if (n === state.open) return;
@@ -730,6 +792,390 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
     renderChips(); renderList(); syncHash(); renderReader();
   }
 
+
+  /* ================= Preparar peça ================= */
+  const pp = { m: null, an: null, draft: null, perfil: {}, view: "dados", saveT: null };
+  const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+  const hojeExtenso = () => { const d = new Date(); return `${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`; };
+  const pretty = s => /[a-zà-ÿ]/.test(s) ? s.charAt(0).toUpperCase() + s.slice(1) : s.charAt(0) + s.slice(1).toLowerCase();
+  const stripB = s => s.replace(/\s*\[[^\]]*\]\s*/g, " ").replace(/\s+/g, " ").trim();
+
+  async function loadPerfil() { try { pp.perfil = (await tx("perfil", "readonly", s => s.get("eu"))) || {}; } catch (e) { pp.perfil = {}; } }
+  async function savePerfil() { try { await tx("perfil", "readwrite", s => s.put(pp.perfil, "eu")); } catch (e) {} }
+  async function loadDraft(n) { try { return await tx("rascunhos", "readonly", s => s.get(n)); } catch (e) { return null; } }
+  function saveDraftSoon() {
+    clearTimeout(pp.saveT);
+    pp.saveT = setTimeout(async () => {
+      pp.draft.atualizadoEm = Date.now();
+      try { await tx("rascunhos", "readwrite", s => s.put(pp.draft, pp.m.numero)); const el = document.getElementById("savedMark"); if (el) { el.textContent = "Salvo neste aparelho"; } } catch (e) {}
+    }, 400);
+  }
+
+  /* ---- análise dos campos do modelo ---- */
+  function analyze(m) {
+    const fields = [], byKey = new Map(), occs = [], repeated = new Map();
+    m.blocos.forEach(b => (b.texto.match(/\[[^\]]*\]/g) || []).forEach(r => { const k = r.slice(1, -1).trim(); repeated.set(k, (repeated.get(k) || 0) + 1); }));
+    let section = null, sectionIdx = -1;
+    m.blocos.forEach((b, bi) => {
+      if (b.tipo === "secao") { section = stripB(b.texto); sectionIdx = bi; }
+      const re = /\[([^\]]*)\]/g; let mt;
+      while ((mt = re.exec(b.texto))) {
+        const inner = mt[1].trim(), n = norm(inner);
+        const before = b.texto.slice(0, mt.index), after = b.texto.slice(mt.index + mt[0].length);
+        const whole = b.texto.trim() === mt[0];
+        let kind = "campo", key = null, profile = null, label = null, options = null;
+        if (/^(se |caso |opcional|se cabivel)/.test(n) && inner.length < 60) kind = "qual";
+        else if (/^(ou|e)[ ,]\s*\S/.test(n) && inner.length < 90 && before.trim()) kind = "opt";
+        else if (/OAB\/\s*$/.test(before)) { key = "perfil.uf"; profile = "uf"; label = "UF da OAB"; }
+        else if (/OAB\/(\[[^\]]*\]|[A-Za-z]{2})\s*nº\s*$/.test(before)) { key = "perfil.oab"; profile = "oab"; label = "Número da OAB"; }
+        else if (/^(nome do advogado|advogado)$/.test(n)) { key = "perfil.nome"; profile = "nome"; label = "Nome do advogado"; }
+        else if (n === "cidade/uf" && inner !== inner.toUpperCase()) { key = "perfil.cidade"; profile = "cidade"; label = "Cidade/UF onde assina"; }
+        else if (n === "data") { key = "data"; label = "Data"; }
+        else if (whole || inner.length > 48) kind = "texto";
+        if (kind === "campo" && !key) {
+          const parts = inner.split(" / ").map(s => s.trim()).filter(Boolean);
+          if (parts.length >= 2 && parts.length <= 5 && parts.every(p => p.length <= 32 && p.split(" ").length <= 4)) options = parts;
+          const words = inner.split(/\s+/).length;
+          const specific = !/__/.test(inner) && (words >= 2 || inner.includes("/")) && !options;
+          if (specific) { key = "k:" + inner; label = n === "cidade/uf" && /COMARCA DE\s*$/.test(before) ? "Cidade/UF da comarca" : pretty(inner); }
+        }
+        if (!key) key = `o:${bi}:${mt.index}`;
+        const occ = { bi, start: mt.index, end: mt.index + mt[0].length, raw: mt[0], inner, key, kind, sectionIdx };
+        occs.push(occ);
+        if (kind === "qual") continue;
+        if (byKey.has(key)) { byKey.get(key).occ.push(occ); continue; }
+        if (!label) {
+          if (kind === "texto") label = whole && section ? pretty(section.replace(/^[IVXL]+(\.\d+)?\s*[–-]\s*/, "").toLowerCase()) : null;
+          if (!label || kind !== "texto") {
+            const clean = s => s.replace(/\[[^\]]*\]/g, " ").replace(/\(\s*\)/g, " ").replace(/\s+([,.;:)])/g, "$1").replace(/([,;:])(\s*[,;:.])+/g, "$1").replace(/\s+/g, " ").trim();
+            const name = inner.replace(/_+/g, "").trim();
+            const generic = !name || repeated.get(inner) > 1 || /^(nome|n[uú]mero|nome \/ assinatura)$/i.test(name) || (/^[A-ZÀ-Þ]+$/.test(name) && !/\s/.test(name));
+            if (!generic) label = pretty(name);
+            else {
+              const bw = clean(before).replace(/^[,;:\s]+/, "").split(" ").slice(-5).join(" ");
+              const aw = clean(after).replace(/^[,;:.\s]+/, "").split(" ").slice(0, 3).join(" ");
+              label = { ctx: true, before: bw.replace(/[,;]$/, ""), after: aw.replace(/[,;:]$/, ""), name: /^[A-ZÀ-Þ]+$/.test(name) && !/^NOME$/.test(name) ? "" : pretty(name) };
+            }
+          }
+        }
+        const f = { key, kind, inner, label, options, profile, occ: [occ], section, bi };
+        byKey.set(key, f); fields.push(f);
+      }
+    });
+    return { fields, byKey, occs };
+  }
+
+  function valueOf(f) {
+    const v = pp.draft.valores[f.key];
+    if (v !== undefined && v !== "") return v;
+    if (f.profile) return pp.perfil[f.profile] || "";
+    if (f.key === "data") return hojeExtenso();
+    return "";
+  }
+
+  /* ---- valor por extenso ---- */
+  const UN = ["", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
+  const DZ = ["", "", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
+  const CT = ["", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
+  function ate999(n) {
+    if (n === 100) return "cem";
+    const c = Math.floor(n / 100), r = n % 100, out = [];
+    if (c) out.push(CT[c]);
+    if (r) out.push(r < 20 ? UN[r] : DZ[Math.floor(r / 10)] + (r % 10 ? " e " + UN[r % 10] : ""));
+    return out.join(" e ");
+  }
+  function inteiro(n) {
+    if (n === 0) return "zero";
+    const esc3 = [["", ""], ["mil", "mil"], ["milhão", "milhões"], ["bilhão", "bilhões"]];
+    const grupos = []; let i = 0;
+    while (n > 0 && i < 4) { grupos.push([n % 1000, i]); n = Math.floor(n / 1000); i++; }
+    const partes = grupos.filter(([g]) => g).reverse().map(([g, k]) => k === 0 ? ate999(g) : k === 1 ? (g === 1 ? "mil" : ate999(g) + " mil") : ate999(g) + " " + (g === 1 ? esc3[k][0] : esc3[k][1]));
+    let s = "";
+    partes.forEach((p, idx) => {
+      if (!idx) { s = p; return; }
+      const last = idx === partes.length - 1, g = grupos.filter(([x]) => x)[0][0];
+      s += (last && (g < 100 || g % 100 === 0) ? " e " : ", ") + p;
+    });
+    return s;
+  }
+  function extenso(txt) {
+    const t = String(txt).replace(/[R$\s]/g, "");
+    if (!/^\d{1,3}(\.\d{3})*(,\d{1,2})?$|^\d+(,\d{1,2})?$|^\d+(\.\d{1,2})?$/.test(t)) return "";
+    let v = /,/.test(t) ? t.replace(/\./g, "").replace(",", ".") : (/^\d{1,3}(\.\d{3})+$/.test(t) ? t.replace(/\./g, "") : t);
+    const num = Math.round(parseFloat(v) * 100); if (!isFinite(num)) return "";
+    const re = Math.floor(num / 100), ce = num % 100;
+    const big = re >= 1e6 && re % 1e6 === 0;
+    let s = re ? inteiro(re) + (big ? " de" : "") + (re === 1 ? " real" : " reais") : "";
+    if (ce) s += (s ? " e " : "") + inteiro(ce) + (ce === 1 ? " centavo" : " centavos");
+    return s || "zero reais";
+  }
+
+  /* ---- geração do documento ---- */
+  function fieldByOcc(o) { return pp.an.byKey.get(o.key); }
+  function resolvedValue(o, blockOccs) {
+    if (o.kind === "qual") return { remove: true };
+    const f = fieldByOcc(o);
+    if (o.kind === "opt") return pp.draft.opcionais[o.key] ? { text: o.inner } : { remove: true };
+    let v = valueOf(f);
+    if (!v && norm(o.inner) === "por extenso") {
+      const prev = blockOccs.filter(x => x.start < o.start && x.kind === "campo").pop();
+      if (prev) v = extenso(valueOf(fieldByOcc(prev)));
+    }
+    return v ? { text: v } : { empty: true };
+  }
+  function buildDocHtml() {
+    const { occs } = pp.an, m = pp.m;
+    const omit = new Set();
+    if (pp.draft.omitir) {
+      // seções marcadas como opcionais e totalmente em branco
+      m.blocos.forEach((b, bi) => {
+        if (b.tipo !== "secao") return;
+        const isOpt = occs.some(o => o.bi === bi && o.kind === "qual");
+        if (!isOpt) return;
+        let end = m.blocos.findIndex((x, j) => j > bi && (x.tipo === "secao" || x.tipo === "titulo" || x.tipo === "assinatura" || /^Nestes termos/.test(x.texto)));
+        if (end < 0) end = m.blocos.length;
+        const inside = occs.filter(o => o.bi >= bi && o.bi < end && o.kind !== "qual" && o.kind !== "opt");
+        const anyFilled = inside.some(o => !!valueOf(fieldByOcc(o)));
+        if (!anyFilled) for (let j = bi; j < end; j++) omit.add(j);
+      });
+    }
+    const out = [];
+    m.blocos.forEach((b, bi) => {
+      if (omit.has(bi)) return;
+      const bo = occs.filter(o => o.bi === bi);
+      let html = "", pos = 0, multi = false;
+      for (const o of bo) {
+        html += esc(b.texto.slice(pos, o.start));
+        const r = resolvedValue(o, bo);
+        if (r.text) { if (/\n/.test(r.text)) multi = true; html += esc(r.text); }
+        else if (r.empty) html += `<span class="campo">${esc(o.raw)}</span>`;
+        pos = o.end;
+      }
+      html += esc(b.texto.slice(pos));
+      html = html.replace(/\s+([,.;:)])/g, "$1").replace(/\(\s*\)/g, "").replace(/[ \t]{2,}/g, " ").trim();
+      if (!html.replace(/<[^>]+>/g, "").trim()) return;
+      const isLine = b.tipo === "assinatura" && /^_{5,}/.test(b.texto);
+      const cls = isLine ? "assinatura linha" : b.tipo;
+      if (isLine) html = html.replace(/_{5,}/g, "______________________________").replace(/\s+/g, "     ");
+      if (multi && bo.length === 1 && b.texto.trim() === bo[0].raw) {
+        valueOf(fieldByOcc(bo[0])).split(/\n\s*\n/).forEach(par => out.push(`<p class="${cls}">${esc(par.trim()).replace(/\n/g, "<br>")}</p>`));
+      } else out.push(`<p class="${cls}">${html.replace(/\n/g, "<br>")}</p>`);
+    });
+    return out.join("\n");
+  }
+
+  /* ---- interface ---- */
+  function fieldCount() {
+    const fs = pp.an.fields.filter(f => f.kind !== "opt");
+    return { total: fs.length, ok: fs.filter(f => !!valueOf(f)).length };
+  }
+  function labelHtml(f) {
+    if (typeof f.label === "string") return esc(f.label);
+    const l = f.label;
+    const name = l.name && !/^…?$/.test(l.name) ? `${esc(l.name)} ` : "";
+    return `${name}<span class="ctx">${l.before ? "…" + esc(l.before) + " " : ""}___${l.after ? " " + esc(l.after) + "…" : ""}</span>`;
+  }
+
+  async function openPrep(n, push = true) {
+    const m = state.models.find(x => x.numero === n); if (!m) return;
+    pp.m = m; pp.an = analyze(m);
+    await loadPerfil();
+    pp.draft = (await loadDraft(n)) || { numero: n, valores: {}, opcionais: {}, omitir: true, docHtml: "", editado: false };
+    pp.draft.valores = pp.draft.valores || {}; pp.draft.opcionais = pp.draft.opcionais || {};
+    if (push && location.hash !== "#p" + n) { try { history.pushState(null, "", "#p" + n); state.pushedPrep = true; } catch (e) {} }
+    pp.view = "dados";
+    $("prep").hidden = false; document.body.style.overflow = "hidden";
+    renderPrep();
+  }
+  function closePrep(fromHash) {
+    if (!fromHash && state.pushedPrep) { state.pushedPrep = false; try { history.back(); return; } catch (e) {} }
+    $("prep").hidden = true; pp.m = null;
+    if (!state.open || !window.matchMedia("(max-width: 899.98px)").matches) document.body.style.overflow = "";
+  }
+
+  function renderPrep() {
+    const m = pp.m, p = $("prep");
+    const hasDoc = !!pp.draft.docHtml;
+    p.innerHTML = `
+      <div class="prep-head"><div class="prep-head-in wrap">
+        <div class="prep-top">
+          <button class="back" id="prepBack" aria-label="Fechar preparação"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div style="min-width:0"><div class="eyebrow">Preparar peça · Modelo ${String(m.numero).padStart(2, "0")}</div><h2>${esc(m.titulo)}</h2></div>
+        </div>
+        <div class="seg" role="tablist">
+          <button role="tab" id="tabDados" aria-selected="${pp.view === "dados"}"><span>1</span>Dados</button>
+          <button role="tab" id="tabDoc" aria-selected="${pp.view === "doc"}" ${hasDoc ? "" : "disabled"}><span>2</span>Documento</button>
+        </div>
+      </div></div>
+      <div class="prep-body" id="prepBody"></div>
+      <div class="prep-foot" id="prepFoot"></div>`;
+    $("prepBack").onclick = () => closePrep();
+    $("tabDados").onclick = () => { pp.view = "dados"; renderPrep(); };
+    $("tabDoc").onclick = () => { if (pp.draft.docHtml) { pp.view = "doc"; renderPrep(); } };
+    pp.view === "doc" ? renderDocView() : renderForm();
+  }
+
+  function inputHtml(f, id) {
+    const v = valueOf(f);
+    const list = f.options ? `list="${id}-l"` : "";
+    const dl = f.options ? `<datalist id="${id}-l">${f.options.map(o => `<option value="${esc(o)}">`).join("")}</datalist>` : "";
+    const ph = f.options ? f.options.join(" / ") : f.inner.replace(/_+/g, "").trim();
+    if (f.kind === "texto") return `<textarea id="${id}" data-key="${esc(f.key)}" placeholder="Escreva aqui…" rows="3">${esc(v)}</textarea>`;
+    return `<input id="${id}" data-key="${esc(f.key)}" ${list} value="${esc(v)}" placeholder="${esc(ph)}" autocomplete="off">${dl}`;
+  }
+
+  function renderForm() {
+    const body = $("prepBody"), an = pp.an;
+    const perfilF = an.fields.filter(f => f.profile);
+    const dados = an.fields.filter(f => !f.profile && f.kind === "campo" && f.key !== "data");
+    const textos = an.fields.filter(f => f.kind === "texto");
+    const opts = an.fields.filter(f => f.kind === "opt");
+    const hasQual = an.occs.some(o => o.kind === "qual");
+    let i = 0, h = "";
+    if (perfilF.length) {
+      const filled = perfilF.every(f => !!valueOf(f));
+      h += `<details class="fs" ${filled ? "" : "open"}><summary>Seus dados profissionais <small>${filled ? "preenchidos · toque para revisar" : "usados em todas as peças"}</small></summary>
+        <div class="grid2">${perfilF.map(f => `<div class="fld"><label for="f${++i}">${esc(f.label)}</label>${inputHtml(f, "f" + i)}</div>`).join("")}</div>
+        <p class="lead" style="margin:0">Ficam salvos neste aparelho e entram automaticamente nas próximas peças.</p></details>`;
+    }
+    if (dados.length) {
+      h += `<section class="fs"><h3>Dados da peça <small>${dados.length} ${dados.length === 1 ? "campo" : "campos"}</small></h3>
+        <p class="lead">Preencha o que tiver. O que ficar em branco aparece destacado no documento para completar depois.</p><div class="grid2">`;
+      for (const f of dados) h += `<div class="fld"><label for="f${++i}">${labelHtml(f)}</label>${inputHtml(f, "f" + i)}</div>`;
+      h += `</div></section>`;
+    }
+    const dataF = an.fields.find(f => f.key === "data");
+    if (dataF) h += `<section class="fs"><h3>Local e data</h3><div class="grid2"><div class="fld"><label for="f${++i}">Data por extenso</label>${inputHtml(dataF, "f" + i)}<span class="hint">Preenchida com a data de hoje. Altere se precisar.</span></div></div></section>`;
+    if (textos.length) {
+      h += `<section class="fs"><h3>Conteúdo da peça <small>${textos.length} ${textos.length === 1 ? "trecho" : "trechos"}</small></h3>
+        <p class="lead">Escreva o texto de cada parte. Linhas em branco separam parágrafos.</p>`;
+      let lastSec = null;
+      for (const f of textos) {
+        if (f.section && f.section !== lastSec) { h += `<div class="sec-label">${esc(f.section)}</div>`; lastSec = f.section; }
+        const lab = typeof f.label === "string" ? esc(f.label) : labelHtml(f);
+        h += `<div class="fld"><label for="f${++i}">${lab}</label>${inputHtml(f, "f" + i)}<span class="hint">${esc(f.inner)}</span></div>`;
+      }
+      h += `</section>`;
+    }
+    if (opts.length || hasQual) {
+      h += `<section class="fs"><h3>Opções</h3>`;
+      for (const f of opts) h += `<label class="chk"><input type="checkbox" data-opt="${esc(f.key)}" ${pp.draft.opcionais[f.key] ? "checked" : ""}><span>Incluir o trecho “${esc(f.inner)}”</span></label>`;
+      if (hasQual) h += `<label class="chk"><input type="checkbox" id="omitir" ${pp.draft.omitir ? "checked" : ""}><span>Omitir as seções marcadas como opcionais (“se houver”, “se for o caso”) que ficarem em branco</span></label>`;
+      h += `</section>`;
+    }
+    body.innerHTML = `<div class="prep-in wrap">${h}</div>`;
+
+    body.querySelectorAll("[data-key]").forEach(el => {
+      const f = an.byKey.get(el.dataset.key) || (el.dataset.key === "data" ? dataF : null);
+      const mark = () => el.closest(".fld").classList.toggle("filled", !!el.value.trim());
+      mark();
+      if (el.tagName === "TEXTAREA") { const grow = () => { el.style.height = "auto"; el.style.height = Math.min(el.scrollHeight + 2, 480) + "px"; }; grow(); el.addEventListener("input", grow); }
+      el.addEventListener("input", () => {
+        const v = el.value;
+        if (f && f.profile) { pp.perfil[f.profile] = v; savePerfil(); }
+        pp.draft.valores[el.dataset.key] = v;
+        body.querySelectorAll(`[data-key="${CSS.escape(el.dataset.key)}"]`).forEach(o => { if (o !== el) o.value = v; });
+        mark(); updateFoot(); saveDraftSoon();
+      });
+    });
+    body.querySelectorAll("[data-opt]").forEach(el => el.addEventListener("change", () => { pp.draft.opcionais[el.dataset.opt] = el.checked; saveDraftSoon(); }));
+    const om = $("omitir"); if (om) om.addEventListener("change", () => { pp.draft.omitir = om.checked; saveDraftSoon(); });
+    updateFoot();
+  }
+
+  function updateFoot() {
+    const foot = $("prepFoot"); if (!foot) return;
+    if (pp.view === "doc") { foot.innerHTML = ""; foot.hidden = true; return; }
+    foot.hidden = false;
+    const c = fieldCount(), pct = c.total ? c.ok / c.total : 1;
+    if (!foot.firstChild) {
+      foot.innerHTML = `<div class="prep-foot-in wrap"><div class="meter"><small id="meterTxt"></small><div class="bar"><i id="meterBar"></i></div></div>
+        <button class="btn primary" id="btnPreparar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14l2 2 4-4"/></svg>Preparar documento</button></div>`;
+      $("btnPreparar").onclick = preparar;
+    }
+    $("meterTxt").textContent = `${c.ok} de ${c.total} campos preenchidos`;
+    $("meterBar").style.width = Math.round(pct * 100) + "%";
+  }
+
+  function preparar() {
+    const go = () => {
+      pp.draft.docHtml = buildDocHtml(); pp.draft.editado = false; saveDraftSoon();
+      pp.view = "doc"; renderPrep();
+    };
+    if (pp.draft.docHtml && pp.draft.editado) {
+      showDialog("Substituir o documento editado?", "Você fez ajustes no documento. Preparar de novo monta o texto a partir dos dados e descarta esses ajustes.", [
+        ["Manter ajustes", "ghost", () => { closeDialog(); pp.view = "doc"; renderPrep(); }],
+        ["Preparar de novo", "primary", () => { closeDialog(); go(); }]
+      ]);
+    } else go();
+  }
+
+  const inFrame = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+  function renderDocView() {
+    const body = $("prepBody");
+    body.innerHTML = `<div class="prep-in wrap">
+      <div class="doc-tools">
+        <button class="btn primary" id="dCopy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>Copiar com formatação</button>
+        <button class="btn ghost" id="dCopyTxt">Copiar texto simples</button>
+        ${inFrame ? "" : `<button class="btn ghost" id="dWord">Baixar Word (.doc)</button>`}
+        <button class="btn ghost" id="dBack">Voltar aos dados</button>
+      </div>
+      <div class="doc-note"><span id="pendCount"></span><span>Toque no texto para editar.</span><span class="saved" id="savedMark"></span></div>
+      <article class="paper editable" id="docEd" contenteditable="true" spellcheck="true" lang="pt-BR" aria-label="Documento preparado, editável">${pp.draft.docHtml}</article>
+    </div>`;
+    const ed = $("docEd");
+    const pend = () => { const n = ed.querySelectorAll(".campo").length; $("pendCount").innerHTML = n ? `<b>${n}</b> ${n === 1 ? "campo em aberto" : "campos em aberto"}, destacados no texto.` : `Todos os campos preenchidos.`; };
+    pend();
+    ed.addEventListener("input", () => {
+      ed.querySelectorAll(".campo").forEach(s => { if (!/^\[.*\]$/.test(s.textContent.trim())) s.replaceWith(document.createTextNode(s.textContent)); });
+      pp.draft.docHtml = ed.innerHTML; pp.draft.editado = true; $("savedMark").textContent = "Salvando…"; pend(); saveDraftSoon();
+    });
+    ed.addEventListener("paste", e => {
+      e.preventDefault();
+      const t = (e.clipboardData || window.clipboardData).getData("text/plain");
+      document.execCommand("insertText", false, t);
+    });
+    $("dCopy").onclick = () => copyDoc(ed, true);
+    $("dCopyTxt").onclick = () => copyDoc(ed, false);
+    $("dBack").onclick = () => { pp.view = "dados"; renderPrep(); };
+    const w = $("dWord"); if (w) w.onclick = () => downloadWord(ed);
+    updateFoot();
+  }
+
+  function docPlain(ed) {
+    return [...ed.querySelectorAll("p")].map(p => {
+      const t = p.innerText.replace(/ /g, " ").trim();
+      return (p.classList.contains("secao") || p.classList.contains("titulo") ? "\n" : "") + (p.classList.contains("item") ? "   " + t : t);
+    }).join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  }
+  function docWordHtml(ed) {
+    const css = `body{font-family:"Times New Roman",serif;font-size:12pt;line-height:1.5}p{margin:0 0 8pt;text-align:justify}
+      .enderecamento{font-weight:bold;text-align:left;margin-bottom:24pt}.titulo{text-align:center;font-weight:bold;margin:14pt 0}
+      .secao{font-weight:bold;text-align:left;margin-top:12pt}.item{margin-left:24pt}.assinatura{text-align:center;margin:0}
+      .linha{margin-top:28pt}.nota{font-style:italic;font-size:10pt}.campo{background:#fff2cc}`;
+    return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>${esc(pp.m.titulo)}</title><style>${css}</style></head><body>${ed.innerHTML}</body></html>`;
+  }
+  async function copyDoc(ed, rich) {
+    const plain = docPlain(ed);
+    try {
+      if (rich && window.ClipboardItem && navigator.clipboard.write) {
+        await navigator.clipboard.write([new ClipboardItem({ "text/html": new Blob([docWordHtml(ed)], { type: "text/html" }), "text/plain": new Blob([plain], { type: "text/plain" }) })]);
+        toast("Documento copiado com formatação. Cole no Word ou Google Docs.");
+      } else { await navigator.clipboard.writeText(plain); toast("Texto copiado."); }
+    } catch (e) {
+      try { await navigator.clipboard.writeText(plain); toast("Texto copiado (sem formatação)."); }
+      catch (e2) { showDialog("Copie o texto", "Seu navegador não liberou a cópia automática. Selecione o texto abaixo e copie.", [["Fechar", "ghost", closeDialog]], plain); }
+    }
+  }
+  function downloadWord(ed) {
+    const blob = new Blob(["﻿", docWordHtml(ed)], { type: "application/msword" });
+    const a = document.createElement("a");
+    const slug = norm(pp.m.titulo).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 50);
+    a.href = URL.createObjectURL(blob); a.download = `Modelo-${String(pp.m.numero).padStart(2, "0")}-${slug}.doc`;
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    toast("Arquivo Word gerado.");
+  }
+
   /* ================= Eventos ================= */
   $("pick").onclick = () => $("file").click();
   $("file").onchange = e => importPdf(e.target.files[0]);
@@ -760,7 +1206,7 @@ mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding:
     ]);
   };
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape") { if (!$("overlay").hidden) closeDialog(); else if (state.open) closeModel(); }
+    if (e.key === "Escape") { if (!$("overlay").hidden) closeDialog(); else if (!$("prep").hidden) closePrep(); else if (state.open) closeModel(); }
     if (e.key === "/" && document.activeElement !== $("q") && !$("searchBox").hidden) { e.preventDefault(); $("q").focus(); }
   });
   window.matchMedia("(max-width: 899.98px)").addEventListener("change", renderReader);

@@ -1,0 +1,786 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Consulta de Modelos Jurídicos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#16223a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+<style>
+/* Layout: barra de busca fixa no topo + lista de cards; no desktop, lista à esquerda e peça aberta à direita; no celular, a peça abre em tela cheia. */
+:root {
+  --bg: #f3f4f7;
+  --surface: #ffffff;
+  --paper: #fffdf8;
+  --ink: #18202f;
+  --muted: #5b6475;
+  --line: #dde1e8;
+  --navy: #16223a;
+  --navy-ink: #f4f1e8;
+  --brass: #9a7230;
+  --brass-soft: #f3e7cf;
+  --field-bg: #fbf0d9;
+  --field-ink: #6b4a12;
+  --focus: #2f5bd3;
+  --ok: #1f7a4d;
+  --danger: #b3261e;
+  --shadow: 0 1px 2px rgba(22, 34, 58, .06), 0 4px 14px rgba(22, 34, 58, .06);
+  --f-ui: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-doc: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --r: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141d; --surface: #171e2a; --paper: #1b2230; --ink: #e8eaf0; --muted: #9aa3b5; --line: #2a3344;
+    --navy: #0b1220; --navy-ink: #efe8d6; --brass: #d0a75c; --brass-soft: #3a2f1c; --field-bg: #3b311c; --field-ink: #f1d79f;
+    --focus: #7ea0ff; --ok: #5cc28d; --danger: #ff8a80; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141d; --surface: #171e2a; --paper: #1b2230; --ink: #e8eaf0; --muted: #9aa3b5; --line: #2a3344;
+  --navy: #0b1220; --navy-ink: #efe8d6; --brass: #d0a75c; --brass-soft: #3a2f1c; --field-bg: #3b311c; --field-ink: #f1d79f;
+  --focus: #7ea0ff; --ok: #5cc28d; --danger: #ff8a80; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-ui); font-size: 15px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--navy); }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* ---------- topo ---------- */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--navy); color: var(--navy-ink); }
+.top-inner { max-width: 1240px; margin: 0 auto; padding-block: 12px 12px; display: grid; gap: 10px; }
+.brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand h1 { margin: 0; font-family: var(--f-doc); font-weight: 600; font-size: 1.15rem; letter-spacing: .01em; display: flex; align-items: center; gap: 9px; text-wrap: balance; }
+.brand h1 svg { flex: none; }
+.brand small { display: block; font-family: var(--f-ui); font-size: .72rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--brass); }
+.icon-btn { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); background: transparent; color: var(--navy-ink); }
+.icon-btn:hover { background: rgba(255,255,255,.08); }
+.search { position: relative; }
+.search input { width: 100%; height: 48px; border-radius: 12px; border: 1px solid transparent; background: var(--surface); color: var(--ink); padding: 0 44px 0 44px; font-size: 16px; }
+.search input::-webkit-search-cancel-button, .search input::-webkit-search-decoration { -webkit-appearance: none; display: none; }
+.search input::placeholder { color: var(--muted); }
+.search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search .clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border: 0; border-radius: 9px; background: transparent; color: var(--muted); display: grid; place-items: center; }
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; margin-inline: -2px; padding-inline: 2px; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.18); background: transparent; color: var(--navy-ink); font-size: .82rem; font-weight: 500; white-space: nowrap; }
+.chip[aria-pressed="true"] { background: var(--brass); border-color: var(--brass); color: #1b1408; }
+
+/* ---------- menu ---------- */
+.menu { position: absolute; right: 0; top: 46px; min-width: 240px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; z-index: 20; }
+.menu button { display: flex; width: 100%; align-items: center; gap: 10px; padding: 11px 12px; border: 0; background: transparent; border-radius: 8px; text-align: left; }
+.menu button:hover { background: var(--bg); }
+.menu .danger { color: var(--danger); }
+.menu-wrap { position: relative; }
+
+/* ---------- principal ---------- */
+main { max-width: 1240px; margin: 0 auto; padding-block: 16px 40px; }
+.layout { display: grid; gap: 20px; }
+@media (min-width: 900px) { .layout.has-data { grid-template-columns: minmax(320px, 420px) minmax(0, 1fr); align-items: start; } }
+.status { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: var(--muted); font-size: .82rem; margin: 0 2px 10px; flex-wrap: wrap; }
+.status b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.list { display: grid; gap: 10px; }
+.group-title { font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; color: var(--brass); font-weight: 700; margin: 14px 2px 2px; }
+.card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 12px 14px 14px; color: var(--ink); }
+.card:hover { border-color: color-mix(in srgb, var(--brass) 55%, var(--line)); }
+.card[aria-current="true"] { border-color: var(--brass); box-shadow: inset 3px 0 0 var(--brass); }
+.num { font-family: var(--f-doc); font-weight: 700; font-size: 1.05rem; color: var(--brass); font-variant-numeric: tabular-nums lining-nums; min-width: 2ch; line-height: 1.3; }
+.card h3 { margin: 0 0 3px; font-size: .98rem; font-weight: 600; line-height: 1.3; text-wrap: balance; }
+.card .base { margin: 0; font-size: .8rem; color: var(--muted); line-height: 1.35; }
+.card .meta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tag { font-size: .7rem; font-weight: 600; letter-spacing: .03em; padding: 2px 8px; border-radius: 999px; background: var(--brass-soft); color: var(--field-ink); }
+.tag.plain { background: var(--bg); color: var(--muted); }
+.star { width: 34px; height: 34px; border: 0; border-radius: 9px; background: transparent; color: var(--muted); display: grid; place-items: center; margin: -4px -2px 0 0; }
+.star[aria-pressed="true"] { color: var(--brass); }
+mark { background: var(--field-bg); color: inherit; border-radius: 3px; padding: 0 1px; }
+.empty-results { background: var(--surface); border: 1px dashed var(--line); border-radius: var(--r); padding: 22px 18px; color: var(--muted); }
+.empty-results strong { color: var(--ink); }
+
+/* ---------- importação ---------- */
+.importer { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 18px; max-width: 680px; margin: 0 auto; box-shadow: var(--shadow); }
+.importer h2 { font-family: var(--f-doc); font-size: 1.45rem; line-height: 1.2; margin: 0 0 8px; text-wrap: balance; }
+.importer p { margin: 0 0 14px; color: var(--muted); max-width: 60ch; }
+.drop { display: grid; place-items: center; gap: 8px; text-align: center; border: 1.5px dashed color-mix(in srgb, var(--brass) 60%, var(--line)); border-radius: 14px; padding: 26px 16px; background: color-mix(in srgb, var(--brass-soft) 35%, var(--surface)); }
+.drop.over { background: var(--brass-soft); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 18px; border-radius: 11px; border: 1px solid transparent; font-weight: 600; }
+.btn.primary { background: var(--navy); color: var(--navy-ink); }
+:root[data-theme="dark"] .btn.primary, :root:not([data-theme="light"]) .btn.primary { border-color: color-mix(in srgb, var(--brass) 50%, transparent); }
+.btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn.danger { background: var(--danger); color: #fff; }
+.steps { display: grid; gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; font-size: .9rem; }
+.steps li::before { content: counter(s); width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: var(--navy-ink); font-size: .78rem; font-weight: 700; }
+.progress { margin-top: 16px; display: grid; gap: 6px; }
+.bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--brass); transition: width .2s; }
+.progress small { color: var(--muted); font-variant-numeric: tabular-nums; }
+.msg { margin-top: 14px; padding: 11px 13px; border-radius: 10px; font-size: .9rem; }
+.msg.err { background: color-mix(in srgb, var(--danger) 12%, var(--surface)); color: var(--danger); }
+.msg.ok { background: color-mix(in srgb, var(--ok) 12%, var(--surface)); color: var(--ok); }
+
+/* ---------- leitor da peça ---------- */
+.reader { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+@media (min-width: 900px) { .reader { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 168px); max-height: calc(100vh - 190px); display: flex; flex-direction: column; } .reader .doc-scroll { overflow: auto; } }
+@media (max-width: 899.98px) {
+  .reader { position: fixed; inset: 0; z-index: 30; border-radius: 0; border: 0; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .reader .doc-scroll { overflow: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+}
+.reader-head { display: grid; gap: 10px; padding: 12px max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px)); border-bottom: 1px solid var(--line); background: var(--surface); }
+.reader-top { display: flex; align-items: center; gap: 8px; }
+.back { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: transparent; display: grid; place-items: center; flex: none; }
+@media (min-width: 900px) { .back { display: none; } }
+.reader-title { min-width: 0; flex: 1; }
+.reader-title .eyebrow { font-size: .7rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--brass); }
+.reader-title h2 { margin: 1px 0 0; font-family: var(--f-doc); font-size: 1.18rem; line-height: 1.25; text-wrap: balance; }
+.reader-base { font-size: .8rem; color: var(--muted); margin: 0; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.actions .btn { height: 40px; padding: 0 13px; font-size: .88rem; }
+.doc-scroll { background: var(--bg); }
+.paper { background: var(--paper); margin: 14px max(12px, env(safe-area-inset-left, 0px)) 24px; border: 1px solid var(--line); border-radius: 6px; padding: 22px 18px 28px; font-family: var(--f-doc); font-size: 1rem; line-height: 1.6; max-width: 72ch; }
+@media (min-width: 900px) { .paper { margin: 18px auto 28px; padding: 34px 40px 40px; } }
+.paper p { margin: 0 0 .7em; text-align: justify; hyphens: auto; overflow-wrap: anywhere; }
+.paper .enderecamento { font-weight: 700; text-align: left; margin-bottom: 1.1em; }
+.paper .titulo { text-align: center; font-weight: 700; letter-spacing: .02em; margin: 1em 0 .8em; }
+.paper .secao { font-weight: 700; color: var(--ink); margin: 1.15em 0 .35em; text-align: left; font-family: var(--f-ui); font-size: .86rem; letter-spacing: .02em; }
+.paper .item { padding-left: 1.2em; }
+.paper .nota { font-size: .88rem; font-style: italic; background: var(--brass-soft); border-left: 3px solid var(--brass); padding: .6em .8em; border-radius: 0 6px 6px 0; text-align: left; }
+.paper .assinatura { text-align: center; margin: 0; overflow-wrap: anywhere; }
+.paper .assinatura.linha { margin-top: 1.2em; letter-spacing: -.02em; color: var(--muted); }
+.paper .campo { background: var(--field-bg); color: var(--field-ink); border-radius: 3px; padding: 0 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.reader-empty { padding: 40px 24px; text-align: center; color: var(--muted); }
+.reader-empty h3 { font-family: var(--f-doc); color: var(--ink); margin: 0 0 6px; font-size: 1.1rem; }
+
+/* ---------- avisos ---------- */
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--navy); color: var(--navy-ink); padding: 11px 16px; border-radius: 10px; font-size: .9rem; z-index: 50; box-shadow: var(--shadow); max-width: calc(100% - 32px); }
+.overlay { position: fixed; inset: 0; background: rgba(10, 14, 22, .5); z-index: 40; display: grid; place-items: center; padding: 16px; }
+.dialog { background: var(--surface); color: var(--ink); border-radius: 14px; padding: 20px; max-width: 400px; width: 100%; box-shadow: var(--shadow); }
+.dialog h3 { margin: 0 0 6px; font-size: 1.08rem; }
+.dialog p { margin: 0 0 16px; color: var(--muted); }
+.dialog .row { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.copy-fallback { width: 100%; min-height: 200px; margin-top: 10px; font-family: var(--f-doc); font-size: .85rem; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+
+<header class="top">
+  <div class="top-inner wrap">
+    <div class="brand">
+      <h1>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v17M7 20h10M4 7h16M6 7l-3 6a3 3 0 0 0 6 0L6 7zM18 7l-3 6a3 3 0 0 0 6 0l-3-6z"/></svg>
+        <span>Consulta de Modelos<small>Peças e documentos jurídicos</small></span>
+      </h1>
+      <div class="menu-wrap">
+        <button class="icon-btn" id="menuBtn" aria-haspopup="true" aria-expanded="false" aria-label="Mais opções">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>
+        </button>
+        <div class="menu" id="menu" hidden>
+          <button id="mImport"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>Importar outro PDF</button>
+          <button id="mClear" class="danger"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-8 0l1 13h8l1-13"/></svg>Apagar modelos deste aparelho</button>
+        </div>
+      </div>
+    </div>
+    <div class="search" id="searchBox" hidden>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <label for="q" class="sr">Buscar modelo</label>
+      <input id="q" type="search" enterkeyhint="search" autocomplete="off" placeholder="Digite o tipo: apelação, habeas corpus, despejo…">
+      <button class="clear" id="clearQ" aria-label="Limpar busca" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="chips" id="chips" role="toolbar" aria-label="Filtrar por área" hidden></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+
+  <section class="importer" id="importer">
+    <h2>Importe o livreto de modelos em PDF</h2>
+    <p>O sistema lê o arquivo, separa cada modelo e guarda tudo neste aparelho. Depois da importação, a consulta funciona pela busca, mesmo sem abrir o PDF de novo.</p>
+    <div class="drop" id="drop">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" style="color:var(--brass)"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 18v-6m0 0l-2.5 2.5M12 12l2.5 2.5"/></svg>
+      <button class="btn primary" id="pick">Escolher arquivo PDF</button>
+      <small style="color:var(--muted)">ou arraste o arquivo para cá</small>
+    </div>
+    <ol class="steps">
+      <li><span>Use qualquer versão do livreto <b>Modelos de Peças e Documentos Jurídicos</b>: leitura A5, bolso, ou os arquivos de impressão em A4.</span></li>
+      <li><span>Aguarde a leitura das páginas. Os 86 modelos são separados com título, base legal e área.</span></li>
+      <li><span>Digite o tipo de documento na busca e toque no card para abrir a peça completa e copiar.</span></li>
+    </ol>
+    <div class="progress" id="progress" hidden>
+      <div class="bar"><i id="barFill"></i></div>
+      <small id="progText">Preparando leitura…</small>
+    </div>
+    <div class="msg" id="msg" hidden></div>
+  </section>
+
+  <div class="layout" id="layout" hidden>
+    <section aria-label="Resultados">
+      <div class="status" id="status"></div>
+      <div class="list" id="list"></div>
+    </section>
+    <section class="reader" id="reader" aria-live="polite">
+      <div class="reader-empty" id="readerEmpty">
+        <h3>Escolha um modelo</h3>
+        <p>A peça abre aqui, com os campos a preencher destacados.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="overlay" id="overlay" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script>
+/* Parser do livreto "Modelos de Peças e Documentos Jurídicos".
+   Entrada: lista de páginas do PDF [{width, height, items:[{str, x, y, w, size}]}]
+   Saída: {parts:[...], models:[{numero, titulo, base, parte, blocos:[{tipo, texto}]}]}
+   Aceita as versões sequenciais (A5 / bolso) e as de impressão (2 ou 4 páginas por lado de A4). */
+(function (root) {
+  const FOOTER = /^[–-]\s*(\d{1,4})\s*[–-]$/;
+  const HEADER = [/^PARTE [IVXL]+ · /, /^Modelos (de Peças e Documentos )?Jurídicos · /, /^corte\b/];
+
+  function median(a) { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : 0; }
+
+  /* 1) Divide cada folha em páginas virtuais usando os rodapés "– n –" */
+  function virtualPages(pdfPages) {
+    const out = [];
+    for (const pg of pdfPages) {
+      const items = pg.items.filter(i => i.str && i.str.trim() && !/^(corte\b.*|\|.*|[-\s]*dobra)$/.test(i.str.trim()));
+      const foot = items.filter(i => FOOTER.test(i.str.trim()));
+      if (!foot.length) continue; // capa/contracapa ou página sem número
+      const centers = foot.map(f => ({ n: +FOOTER.exec(f.str.trim())[1], cx: f.x + f.w / 2, item: f })).sort((a, b) => a.cx - b.cx);
+      let slot = pg.width;
+      for (let k = 1; k < centers.length; k++) slot = Math.min(slot, centers[k].cx - centers[k - 1].cx);
+      if (centers.length === 1 && pg.width > pg.height * 1.2) slot = pg.width / 2;
+      const buckets = centers.map(c => ({ n: c.n, cx: c.cx, items: [] }));
+      for (const it of items) {
+        if (foot.includes(it)) continue;
+        const mid = it.x + Math.min(it.w, slot * 0.9) / 2;
+        let best = null, bd = Infinity;
+        for (const b of buckets) { const d = Math.abs(mid - b.cx); if (d < bd) { bd = d; best = b; } }
+        if (best && bd <= slot * 0.55) best.items.push(it);
+      }
+      for (const b of buckets) out.push({ n: b.n, cx: b.cx, items: b.items });
+    }
+    out.sort((a, b) => a.n - b.n);
+    // remove duplicatas eventuais
+    return out.filter((p, i) => i === 0 || p.n !== out[i - 1].n);
+  }
+
+  /* 2) Junta itens em linhas */
+  function toLines(vp) {
+    const its = vp.items.slice().sort((a, b) => (b.y - a.y) || (a.x - b.x));
+    const lines = [];
+    for (const it of its) {
+      const tol = Math.max(1.2, it.size * 0.45);
+      let ln = lines.find(l => Math.abs(l.y - it.y) <= tol);
+      if (!ln) { ln = { y: it.y, parts: [], size: 0 }; lines.push(ln); }
+      ln.parts.push(it); ln.size = Math.max(ln.size, it.size);
+    }
+    for (const l of lines) {
+      l.parts.sort((a, b) => a.x - b.x);
+      let txt = "", prevEnd = null;
+      for (const p of l.parts) {
+        if (prevEnd !== null) {
+          const gap = p.x - prevEnd;
+          if (gap > p.size * 0.18 && !txt.endsWith(" ") && !p.str.startsWith(" ")) txt += " ";
+        }
+        txt += p.str; prevEnd = p.x + p.w;
+      }
+      l.text = txt.replace(/\s+/g, " ").trim();
+      l.x0 = l.parts[0].x; l.x1 = Math.max(...l.parts.map(p => p.x + p.w));
+      // linha de assinatura dupla (duas colunas) fica em uma só linha
+    }
+    lines.sort((a, b) => b.y - a.y);
+    const kept = lines.filter(l => l.text && !HEADER.some(r => r.test(l.text)));
+    const left = Math.min(...kept.map(l => l.x0)), right = Math.max(...kept.map(l => l.x1));
+    return { n: vp.n, cx: vp.cx, lines: kept, left, right };
+  }
+
+  const ROMAN_HEAD = /^[IVXL]+(\.\d+)?\s*[–-]\s*(\S)/;
+  const STARTERS = /^([IVXL]+(\.\d+)?\s*[–-]\s|CLÁUSULA|[a-z]\)\s|\d+\.\s|•|Nota:|Junta:|Processo nº|Autos nº|Execução nº|Origem:|Apelante:|Agravante:|Autor:|Autor\/|Ação:|Distribuição|EGRÉGIO|COLENDA|Nestes termos|\[Cidade|_{5,}|OUTORGA|SUBSTABELEC|CONTRATANTE|CONTRATADO|CREDOR|DEVEDOR|LOCADOR|LOCATÁRIO|PROMITENTE|COMITENTE|COMODANTE|COMODATÁRIO|VENDEDOR|COMPRADOR|CONVIVENTES|TITULAR|NOTIFICA|PRIMEIRA PARTE|DISTRATANTES|EXCELENT|ILUSTR|SENHOR)/;
+
+  function isUpperish(t) {
+    const letters = t.replace(/\[[^\]]*\]/g, "").replace(/[^A-Za-zÀ-ÿ]/g, "");
+    if (letters.length < 4) return false;
+    const up = letters.replace(/[^A-ZÀ-Þ]/g, "").length;
+    return up / letters.length > 0.85;
+  }
+
+  function classify(text, centered, ctx) {
+    if (/^_{5,}/.test(text)) return "assinatura";
+    if (ctx.afterSig > 0 && centered && /^(\[|OAB|CPF|Testemunha)/.test(text)) return "assinatura";
+    if (/^Nota:/.test(text)) return "nota";
+    if (/^[A-ZÀ-Þ][A-ZÀ-Þ ()\/]{2,}:\s/.test(text) && !/^(EGRÉGIO|COLENDA)/.test(text)) return "paragrafo";
+    const m = ROMAN_HEAD.exec(text);
+    if (m) return /[a-zà-ÿ]/.test(m[2]) ? "item" : "secao";
+    if (/^CLÁUSULA\b/.test(text)) return "secao";
+    if (/^[a-z]\)\s/.test(text)) return "item";
+    if (/^\d+\.\s/.test(text)) return isUpperish(text.slice(0, 40)) ? "secao" : "item";
+    if (ctx.first && /^(EXCELENT|SENHOR|ILUSTR|EGRÉG)/.test(text)) return "enderecamento";
+    if (centered && isUpperish(text)) return "titulo";
+    if (!centered && isUpperish(text.split("(")[0]) && text.length < 80 && !/^(EXCELENT|SENHOR|ILUSTR)/.test(text)) return "secao";
+    return "paragrafo";
+  }
+
+  /* 3) Segmenta os modelos */
+  function parse(pdfPages) {
+    const pages = virtualPages(pdfPages).map(toLines);
+    const sizes = [];
+    pages.forEach(p => p.lines.forEach(l => sizes.push(Math.round(l.size * 10) / 10)));
+    const counts = {}; sizes.forEach(s => counts[s] = (counts[s] || 0) + 1);
+    const body = +Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+
+    // margens típicas relativas ao centro de cada página (robusto para páginas com poucas linhas)
+    const full = pages.filter(p => p.lines.length >= 12);
+    const offL = median(full.map(p => p.left - p.cx)), offR = median(full.map(p => p.right - p.cx));
+    pages.forEach(p => { p.left = p.cx + offL; p.right = p.cx + offR; });
+    const models = [], parts = [];
+    let part = "", cur = null;
+
+    for (const pg of pages) {
+      const L = pg.lines;
+      if (!L.length) continue;
+      if (/^ANOTAÇÕES$/.test(L[0].text)) { cur = null; continue; }
+      const iParte = L.findIndex(l => /^PARTE [IVXL]+$/.test(l.text));
+      const iRange = L.findIndex(l => /^Modelos \d+ a \d+$/.test(l.text));
+      if (iParte >= 0 && iRange > iParte) {
+        const sub = L.slice(iParte + 1, iRange).map(l => l.text).join(" ");
+        part = L[iParte].text + " — " + sub;
+        parts.push(part); cur = null; continue;
+      }
+      const width = pg.right - pg.left, center = (pg.left + pg.right) / 2;
+      let prev = null;
+      for (let i = 0; i < L.length; i++) {
+        const l = L[i];
+        const mm = /^MODELO (\d+)$/.exec(l.text);
+        if (mm) {
+          let j = i + 1; const tit = [], base = [];
+          while (j < L.length && L[j].size > body * 1.15) tit.push(L[j++].text);
+          while (j < L.length && L[j].size < body * 0.95 && !/^MODELO /.test(L[j].text)) base.push(L[j++].text);
+          cur = { numero: +mm[1], titulo: tit.join(" "), base: base.join(" "), parte: part, linhas: [] };
+          models.push(cur); i = j - 1; prev = null; continue;
+        }
+        if (!cur) continue;
+        const full = l.x1 >= pg.right - width * 0.045;
+        const lc = (l.x0 + l.x1) / 2;
+        const centered = !full && Math.abs(lc - center) < width * 0.04 && l.x0 > pg.left + width * 0.06;
+        cur.linhas.push({ text: l.text, y: l.y, size: l.size, full, centered, page: pg.n, x0: l.x0, left: pg.left, prevY: prev ? prev.y : null, samePage: !!prev });
+        prev = l;
+      }
+    }
+
+    for (const m of models) { m.blocos = toBlocks(m.linhas); delete m.linhas; }
+    return { parts, models };
+  }
+
+  function toBlocks(lines) {
+    const blocks = []; let b = null; const ctx = { afterSig: 0, first: true };
+    let last = null;
+    for (const l of lines) {
+      let newBlock = !b;
+      if (b) {
+        const gap = l.samePage && l.prevY !== null ? (l.prevY - l.y) : 0;
+        if (!last.full) newBlock = true;
+        if (l.samePage && gap > l.size * 1.55) newBlock = true;
+        if (STARTERS.test(l.text) || /^_{5,}/.test(last.text)) newBlock = true;
+        if (l.centered !== last.centered && !(last.full && l.centered === false)) newBlock = true;
+        if (b.centro && l.centered && !/^_{5,}/.test(l.text) && b.tipo === "titulo" && gap <= l.size * 1.6 && !/^_{5,}/.test(last.text)) newBlock = false;
+      }
+      if (newBlock) {
+        const tipo = classify(l.text, l.centered, ctx);
+        b = { tipo, texto: l.text, centro: l.centered };
+        blocks.push(b);
+        if (tipo === "assinatura") ctx.afterSig = 4; else if (ctx.afterSig) ctx.afterSig--;
+        ctx.first = false;
+      } else {
+        b.texto += (b.texto.endsWith("-") && !b.texto.endsWith(" -") ? "" : " ") + l.text;
+      }
+      last = l;
+    }
+    // títulos centralizados consecutivos (quebra de linha) viram um só
+    const out = [];
+    for (const x of blocks) {
+      const p = out[out.length - 1];
+      if (p && x.tipo === "titulo" && (p.tipo === "titulo" || (p.tipo === "secao" && !/^([IVXL]+(\.\d+)?\s*[–-]|CLÁUSULA|\d+\.)/.test(p.texto))) && !/[.:;]$/.test(p.texto)) { p.tipo = "titulo"; p.texto += " " + x.texto; continue; }
+      if (p && p.tipo === "enderecamento" && x.tipo !== "titulo" && !STARTERS.test(x.texto) && isUpperish(x.texto.replace(/\[[^\]]*\]/g, "XX"))) { p.texto += " " + x.texto; continue; }
+      if (p && x.tipo === "paragrafo" && p.tipo === "paragrafo" && !/[.;:)\]]$/.test(p.texto) && /^[a-zà-ÿ(]/.test(x.texto)) { p.texto += " " + x.texto; continue; }
+      out.push({ tipo: x.tipo, texto: x.texto });
+    }
+    return out;
+  }
+
+  const api = { parse, virtualPages, toLines };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.LivretoParser = api;
+})(typeof self !== "undefined" ? self : this);
+
+</script>
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const state = { models: [], parts: [], meta: null, favs: new Set(), q: "", part: "todas", open: null, idbOk: true };
+
+  /* ================= IndexedDB ================= */
+  const DB_NAME = "consulta-modelos-juridicos", DB_VER = 1;
+  let dbp = null;
+  function db() {
+    if (dbp) return dbp;
+    dbp = new Promise((res, rej) => {
+      try {
+        const r = indexedDB.open(DB_NAME, DB_VER);
+        r.onupgradeneeded = () => {
+          const d = r.result;
+          if (!d.objectStoreNames.contains("modelos")) d.createObjectStore("modelos", { keyPath: "numero" });
+          if (!d.objectStoreNames.contains("meta")) d.createObjectStore("meta");
+          if (!d.objectStoreNames.contains("favoritos")) d.createObjectStore("favoritos");
+        };
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+        r.onblocked = () => rej(new Error("blocked"));
+      } catch (e) { rej(e); }
+    });
+    return dbp;
+  }
+  function tx(store, mode, fn) {
+    return db().then(d => new Promise((res, rej) => {
+      const t = d.transaction(store, mode); const s = t.objectStore(store);
+      const out = fn(s); t.oncomplete = () => res(out && out.result !== undefined ? out.result : out); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error);
+    }));
+  }
+  const getAll = store => tx(store, "readonly", s => s.getAll());
+  const getAllKeys = store => tx(store, "readonly", s => s.getAllKeys());
+  async function saveAll(models, meta) {
+    const d = await db();
+    await new Promise((res, rej) => {
+      const t = d.transaction(["modelos", "meta"], "readwrite");
+      const s = t.objectStore("modelos"); s.clear();
+      models.forEach(m => s.put(m));
+      t.objectStore("meta").put(meta, "info");
+      t.oncomplete = res; t.onerror = () => rej(t.error); t.onabort = () => rej(t.error);
+    });
+  }
+  async function clearAll() {
+    const d = await db();
+    await new Promise((res, rej) => {
+      const t = d.transaction(["modelos", "meta", "favoritos"], "readwrite");
+      ["modelos", "meta", "favoritos"].forEach(n => t.objectStore(n).clear());
+      t.oncomplete = res; t.onerror = () => rej(t.error);
+    });
+  }
+
+  /* ================= Busca ================= */
+  const norm = s => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const ALIAS = {
+    hc: "habeas corpus", ms: "mandado de seguranca", resp: "recurso especial", re: "recurso extraordinario",
+    ai: "agravo de instrumento", ed: "embargos de declaracao", ro: "recurso ordinario", rr: "recurso de revista",
+    rese: "recurso em sentido estrito", jec: "juizado especial", anpp: "nao persecucao", lgpd: "dados pessoais",
+    pi: "peticao inicial", inicial: "peticao inicial", divorcio: "divorcio", pensao: "alimentos", aluguel: "locacao",
+    inquilino: "despejo", trabalhista: "trabalho", multa: "transito", inss: "previdenciaria", procuracao: "procuracao"
+  };
+  const STOP = new Set(["de", "da", "do", "das", "dos", "e", "a", "o", "em", "para", "com", "por", "na", "no"]);
+  function tokens(q) {
+    const raw = norm(q).replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(Boolean);
+    const out = [];
+    raw.forEach(t => { if (ALIAS[t] && raw.length <= 2) ALIAS[t].split(" ").filter(w => !STOP.has(w)).forEach(w => out.push(w)); else if (!STOP.has(t)) out.push(t); });
+    return [...new Set(out)];
+  }
+  function prep(m) {
+    m._t = norm(m.titulo); m._b = norm(m.base); m._p = norm(m.parte);
+    m._x = norm(m.blocos.map(b => b.texto).join(" "));
+    return m;
+  }
+  function score(m, toks) {
+    if (!toks.length) return 1;
+    let s = 0;
+    for (const t of toks) {
+      const stem = t.length > 5 ? t.slice(0, t.length - 1) : t;
+      const inT = m._t.includes(stem), inB = m._b.includes(stem), inP = m._p.includes(stem), inX = m._x.includes(stem);
+      if (!inT && !inB && !inP && !inX) return 0;
+      if (inT) s += m._t.split(/\s+/).some(w => w.startsWith(stem)) ? 12 : 8;
+      if (inB) s += 3; if (inP) s += 2; if (inX) s += 1;
+    }
+    if (m._t.startsWith(toks[0])) s += 6;
+    return s;
+  }
+  const ACC = { a: "aàáâãä", e: "eèéêë", i: "iìíîï", o: "oòóôõö", u: "uùúûü", c: "cç", n: "nñ" };
+  function accentRe(t) { return t.split("").map(ch => ACC[ch] ? "[" + ACC[ch] + ACC[ch].toUpperCase() + "]" : ch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(""); }
+  const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  function hl(text, toks) {
+    let h = esc(text);
+    if (!toks.length) return h;
+    const parts = toks.map(t => accentRe(t.length > 5 ? t.slice(0, t.length - 1) : t));
+    return h.replace(new RegExp("((?:" + parts.join("|") + ")[\\p{L}]*)", "giu"), "<mark>$1</mark>");
+  }
+
+  /* ================= Render ================= */
+  const short = p => { const m = /^PARTE ([IVXL]+) — (.+)$/.exec(p || ""); if (!m) return p; let s = m[2].split(" — ")[0]; s = s.charAt(0) + s.slice(1).toLowerCase(); return s.replace(/\b(cíveis|civil|penal|trabalho|família|sucessões)\b/g, w => w); };
+  const partLabel = p => {
+    const n = (p.match(/^PARTE ([IVXL]+)/) || [])[1] || "";
+    const map = { I: "Processo civil", II: "Recursos e JEC", III: "Família", IV: "Penal", V: "Trabalho", VI: "Público e tributário", VII: "Advocacia e extrajudicial", VIII: "Contratos" };
+    return map[n] || short(p);
+  };
+
+  function renderChips() {
+    const c = $("chips"); c.innerHTML = "";
+    const opts = [["todas", "Todas"], ["fav", "★ Favoritos"]].concat(state.parts.map(p => [p, partLabel(p)]));
+    for (const [v, l] of opts) {
+      const b = document.createElement("button"); b.className = "chip"; b.textContent = l;
+      b.setAttribute("aria-pressed", String(state.part === v));
+      b.onclick = () => { state.part = v; renderChips(); renderList(); };
+      c.appendChild(b);
+    }
+  }
+
+  function renderList() {
+    const toks = tokens(state.q);
+    let rows = state.models.map(m => ({ m, s: score(m, toks) })).filter(r => r.s > 0);
+    if (state.part === "fav") rows = rows.filter(r => state.favs.has(r.m.numero));
+    else if (state.part !== "todas") rows = rows.filter(r => r.m.parte === state.part);
+    if (toks.length) rows.sort((a, b) => b.s - a.s || a.m.numero - b.m.numero); else rows.sort((a, b) => a.m.numero - b.m.numero);
+
+    const list = $("list"); list.innerHTML = "";
+    const st = $("status");
+    const src = state.meta ? `${state.meta.total} modelos · importado em ${new Date(state.meta.importadoEm).toLocaleDateString("pt-BR")}` : "";
+    st.innerHTML = `<span><b>${rows.length}</b> ${rows.length === 1 ? "modelo encontrado" : "modelos encontrados"}</span><span>${esc(src)}</span>`;
+
+    if (!rows.length) {
+      const d = document.createElement("div"); d.className = "empty-results";
+      d.innerHTML = state.part === "fav" && !state.q
+        ? "<strong>Nenhum favorito ainda.</strong><br>Toque na estrela de um card para guardá-lo aqui."
+        : `<strong>Nenhum modelo para “${esc(state.q)}”.</strong><br>Tente outro termo, como “agravo”, “alimentos”, “contrato” ou “execução”, ou limpe o filtro de área.`;
+      list.appendChild(d); return;
+    }
+    let lastPart = null;
+    const frag = document.createDocumentFragment();
+    for (const { m } of rows) {
+      if (!toks.length && state.part === "todas" && m.parte !== lastPart) {
+        const g = document.createElement("div"); g.className = "group-title"; g.textContent = m.parte.replace(/^PARTE ([IVXL]+) — /, "Parte $1 · "); frag.appendChild(g); lastPart = m.parte;
+      }
+      const fields = (m.blocos.map(b => b.texto).join(" ").match(/\[[^\]]*\]/g) || []).length;
+      const card = document.createElement("div");
+      card.className = "card"; card.setAttribute("role", "button"); card.tabIndex = 0;
+      card.setAttribute("aria-current", String(state.open === m.numero));
+      card.innerHTML = `<span class="num">${String(m.numero).padStart(2, "0")}</span>
+        <div style="min-width:0"><h3>${hl(m.titulo, toks)}</h3><p class="base">${hl(m.base, toks)}</p>
+        <div class="meta"><span class="tag">${esc(partLabel(m.parte))}</span><span class="tag plain">${fields} campos</span></div></div>
+        <button class="star" aria-label="Favoritar" aria-pressed="${state.favs.has(m.numero)}">${starSvg(state.favs.has(m.numero))}</button>`;
+      card.addEventListener("click", e => { if (e.target.closest(".star")) return; openModel(m.numero); });
+      card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModel(m.numero); } });
+      card.querySelector(".star").addEventListener("click", e => { e.stopPropagation(); toggleFav(m.numero); });
+      frag.appendChild(card);
+    }
+    list.appendChild(frag);
+  }
+  const starSvg = on => `<svg width="20" height="20" viewBox="0 0 24 24" fill="${on ? "currentColor" : "none"}" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>`;
+
+  function fieldify(text) { return esc(text).replace(/\[([^\]]*)\]/g, '<span class="campo">[$1]</span>'); }
+
+  function renderReader() {
+    const r = $("reader");
+    const m = state.models.find(x => x.numero === state.open);
+    if (!m) {
+      r.innerHTML = `<div class="reader-empty"><h3>Escolha um modelo</h3><p>A peça abre aqui, com os campos a preencher destacados.</p></div>`;
+      if (window.matchMedia("(max-width: 899.98px)").matches) r.hidden = true; else r.hidden = false;
+      document.body.style.overflow = "";
+      return;
+    }
+    r.hidden = false;
+    const fav = state.favs.has(m.numero);
+    const body = m.blocos.map(b => {
+      const cls = b.tipo === "assinatura" && /^_{5,}/.test(b.texto) ? "assinatura linha" : b.tipo;
+      const txt = b.tipo === "assinatura" && /^_{5,}/.test(b.texto) ? b.texto.replace(/_{5,}/g, "______________________________").replace(/\s+/g, "     ") : b.texto;
+      return `<p class="${cls}">${fieldify(txt)}</p>`;
+    }).join("");
+    r.innerHTML = `<div class="reader-head">
+        <div class="reader-top">
+          <button class="back" id="back" aria-label="Voltar para a lista"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="reader-title"><div class="eyebrow">Modelo ${String(m.numero).padStart(2, "0")} · ${esc(partLabel(m.parte))}</div><h2>${esc(m.titulo)}</h2></div>
+        </div>
+        <p class="reader-base">${esc(m.base)}</p>
+        <div class="actions">
+          <button class="btn primary" id="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>Copiar modelo</button>
+          <button class="btn ghost" id="favR" aria-pressed="${fav}">${starSvg(fav)}${fav ? "Favorito" : "Favoritar"}</button>
+        </div>
+      </div>
+      <div class="doc-scroll"><article class="paper">${body}</article></div>`;
+    $("back").onclick = () => closeModel();
+    $("copy").onclick = () => copyModel(m);
+    $("favR").onclick = () => toggleFav(m.numero);
+    if (window.matchMedia("(max-width: 899.98px)").matches) document.body.style.overflow = "hidden";
+    const sc = r.querySelector(".doc-scroll"); if (sc) sc.scrollTop = 0;
+  }
+
+  function plainText(m) {
+    const out = [];
+    for (const b of m.blocos) {
+      if (b.tipo === "secao" || b.tipo === "titulo") out.push("");
+      out.push(b.tipo === "item" ? "   " + b.texto : b.texto);
+    }
+    return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  }
+  async function copyModel(m) {
+    const text = plainText(m);
+    try { await navigator.clipboard.writeText(text); toast("Modelo copiado. Cole no seu editor de texto."); }
+    catch (e) { showDialog("Copie o texto", "Seu navegador não liberou a cópia automática. Selecione o texto abaixo e copie.", [["Fechar", "ghost", closeDialog]], text); }
+  }
+
+  /* ================= Abrir / fechar ================= */
+  function openModel(n) {
+    state.open = n;
+    if (location.hash !== "#m" + n) { try { history.pushState(null, "", "#m" + n); } catch (e) { location.hash = "m" + n; } }
+    renderReader(); renderList();
+  }
+  function closeModel(fromHash) {
+    state.open = null;
+    if (!fromHash && location.hash) { try { history.back(); return; } catch (e) { location.hash = ""; } }
+    renderReader(); renderList();
+  }
+  window.addEventListener("hashchange", syncHash);
+  window.addEventListener("popstate", syncHash);
+  function syncHash() {
+    const m = /^#m(\d+)$/.exec(location.hash);
+    const n = m ? +m[1] : null;
+    if (n === state.open) return;
+    if (n && state.models.some(x => x.numero === n)) { state.open = n; renderReader(); renderList(); }
+    else { state.open = null; renderReader(); renderList(); }
+  }
+
+  async function toggleFav(n) {
+    const on = !state.favs.has(n);
+    on ? state.favs.add(n) : state.favs.delete(n);
+    try { await tx("favoritos", "readwrite", s => on ? s.put(true, n) : s.delete(n)); } catch (e) {}
+    renderList(); if (state.open === n) renderReader();
+    toast(on ? "Adicionado aos favoritos." : "Removido dos favoritos.");
+  }
+
+  /* ================= Avisos ================= */
+  let tt;
+  function toast(t) { const el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(tt); tt = setTimeout(() => el.hidden = true, 2600); }
+  function showDialog(title, text, buttons, copyText) {
+    const o = $("overlay");
+    o.innerHTML = `<div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgT"><h3 id="dlgT">${esc(title)}</h3><p>${esc(text)}</p>${copyText ? `<textarea class="copy-fallback" id="cpyTxt" readonly>${esc(copyText)}</textarea>` : ""}<div class="row" style="margin-top:12px"></div></div>`;
+    const row = o.querySelector(".row");
+    buttons.forEach(([l, cls, fn]) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = l; b.onclick = fn; row.appendChild(b); });
+    o.hidden = false;
+    const ta = $("cpyTxt"); if (ta) { ta.focus(); ta.select(); } else row.lastChild.focus();
+  }
+  function closeDialog() { $("overlay").hidden = true; $("overlay").innerHTML = ""; }
+  $("overlay").addEventListener("click", e => { if (e.target.id === "overlay") closeDialog(); });
+
+  /* ================= Importação ================= */
+  function setProgress(p, t) { $("progress").hidden = false; $("barFill").style.width = Math.round(p * 100) + "%"; $("progText").textContent = t; }
+  function msg(t, kind) { const m = $("msg"); m.hidden = !t; m.className = "msg " + (kind || ""); m.textContent = t || ""; }
+
+  async function importPdf(file) {
+    if (!file) return;
+    msg("");
+    if (!/pdf$/i.test(file.type) && !/\.pdf$/i.test(file.name)) { msg("Esse arquivo não é um PDF. Escolha o PDF do livreto de modelos.", "err"); return; }
+    if (!window.pdfjsLib) { msg("O leitor de PDF não carregou. Verifique a conexão com a internet e recarregue a página.", "err"); return; }
+    showImporter(true);
+    $("pick").disabled = true;
+    try {
+      setProgress(0.02, "Abrindo " + file.name + "…");
+      const data = new Uint8Array(await file.arrayBuffer());
+      const pdf = await pdfjsLib.getDocument({ data, isEvalSupported: false }).promise;
+      const pages = [];
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const pg = await pdf.getPage(i);
+        const vp = pg.getViewport({ scale: 1 });
+        const tc = await pg.getTextContent();
+        pages.push({ width: vp.width, height: vp.height, items: tc.items.filter(t => typeof t.str === "string").map(t => ({ str: t.str, x: t.transform[4], y: t.transform[5], w: t.width, size: Math.hypot(t.transform[2], t.transform[3]) })) });
+        setProgress(0.05 + 0.85 * i / pdf.numPages, `Lendo página ${i} de ${pdf.numPages}`);
+        if (i % 8 === 0) await new Promise(r => setTimeout(r));
+      }
+      setProgress(0.93, "Separando os modelos…");
+      const res = LivretoParser.parse(pages);
+      if (!res.models.length) throw new Error("NO_MODELS");
+      const models = res.models.map(m => ({ numero: m.numero, titulo: m.titulo, base: m.base, parte: m.parte, blocos: m.blocos }));
+      const meta = { arquivo: file.name, importadoEm: Date.now(), total: models.length, partes: res.parts };
+      try { await saveAll(models, meta); state.idbOk = true; } catch (e) { state.idbOk = false; }
+      setProgress(1, `${models.length} modelos importados.`);
+      state.models = models.map(prep); state.parts = res.parts; state.meta = meta; state.part = "todas"; state.q = ""; $("q").value = "";
+      showApp();
+      toast(state.idbOk ? `${models.length} modelos importados e salvos neste aparelho.` : `${models.length} modelos importados. Este navegador não permitiu salvar; reimporte ao voltar.`);
+      setTimeout(() => $("q").focus({ preventScroll: true }), 50);
+    } catch (e) {
+      console.error(e);
+      msg(e && e.message === "NO_MODELS"
+        ? "Não encontrei modelos neste PDF. Use um dos arquivos do livreto “Modelos de Peças e Documentos Jurídicos” (versão A5, bolso ou impressão)."
+        : e && e.name === "PasswordException" ? "Esse PDF está protegido por senha. Use o arquivo original do livreto."
+        : "Não consegui ler esse PDF. Confira se o arquivo está completo e tente de novo.", "err");
+      $("progress").hidden = true;
+    } finally { $("pick").disabled = false; $("file").value = ""; }
+  }
+
+  function showImporter(keepApp) {
+    $("importer").hidden = false;
+    if (!keepApp) { $("layout").hidden = true; $("searchBox").hidden = true; $("chips").hidden = true; }
+  }
+  function showApp() {
+    $("importer").hidden = true; $("progress").hidden = true; msg("");
+    $("layout").hidden = false; $("layout").classList.add("has-data");
+    $("searchBox").hidden = false; $("chips").hidden = false;
+    renderChips(); renderList(); syncHash(); renderReader();
+  }
+
+  /* ================= Eventos ================= */
+  $("pick").onclick = () => $("file").click();
+  $("file").onchange = e => importPdf(e.target.files[0]);
+  const drop = $("drop");
+  ["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", e => importPdf(e.dataTransfer.files[0]));
+
+  let qt;
+  $("q").addEventListener("input", e => { state.q = e.target.value; $("clearQ").hidden = !state.q; clearTimeout(qt); qt = setTimeout(renderList, 90); });
+  $("clearQ").onclick = () => { $("q").value = ""; state.q = ""; $("clearQ").hidden = true; renderList(); $("q").focus(); };
+
+  const menu = $("menu"), mb = $("menuBtn");
+  mb.onclick = e => { e.stopPropagation(); menu.hidden = !menu.hidden; mb.setAttribute("aria-expanded", String(!menu.hidden)); };
+  document.addEventListener("click", e => { if (!menu.hidden && !e.target.closest(".menu-wrap")) { menu.hidden = true; mb.setAttribute("aria-expanded", "false"); } });
+  $("mImport").onclick = () => { menu.hidden = true; $("file").click(); };
+  $("mClear").onclick = () => {
+    menu.hidden = true;
+    showDialog("Apagar os modelos deste aparelho?", "Os modelos importados e os favoritos serão removidos. O PDF original não é afetado e pode ser importado de novo.", [
+      ["Cancelar", "ghost", closeDialog],
+      ["Apagar", "danger", async () => {
+        closeDialog();
+        try { await clearAll(); } catch (e) {}
+        Object.assign(state, { models: [], parts: [], meta: null, favs: new Set(), open: null, q: "" });
+        if (location.hash) { try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} }
+        $("reader").hidden = false; showImporter(false); toast("Modelos apagados deste aparelho.");
+      }]
+    ]);
+  };
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") { if (!$("overlay").hidden) closeDialog(); else if (state.open) closeModel(); }
+    if (e.key === "/" && document.activeElement !== $("q") && !$("searchBox").hidden) { e.preventDefault(); $("q").focus(); }
+  });
+  window.matchMedia("(max-width: 899.98px)").addEventListener("change", renderReader);
+
+  /* ================= Início ================= */
+  (async function boot() {
+    try {
+      const [models, meta, favs] = await Promise.all([getAll("modelos"), tx("meta", "readonly", s => s.get("info")), getAllKeys("favoritos")]);
+      state.favs = new Set(favs || []);
+      if (models && models.length) {
+        state.models = models.map(prep).sort((a, b) => a.numero - b.numero);
+        state.meta = meta || { total: models.length, importadoEm: Date.now() };
+        state.parts = (meta && meta.partes) || [...new Set(state.models.map(m => m.parte))];
+        showApp(); return;
+      }
+    } catch (e) { state.idbOk = false; }
+    showImporter(false);
+    if (!state.idbOk) msg("Este navegador bloqueou o armazenamento local. A importação funciona, mas será preciso importar de novo a cada visita.", "err");
+  })();
+})();
+</script>
+
+</body></html>
